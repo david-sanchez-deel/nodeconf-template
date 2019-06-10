@@ -1,0 +1,11 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-sonarts"
+  ],
+  "rules": {
+    "quotemark": [true, "single"],
+    "max-line-length": [true, 150]
+  }
+}
