@@ -10,8 +10,6 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "build": "npm run tsc && build.sh",
-    "start": "cd ./dist && node -r tsconfig-paths/register ./index.js",
     "dev": "nodemon",
     "tsc": "tsc -p tsconfig.json",
     "tslint": "tslint -p tsconfig.json -c tslint.json",
