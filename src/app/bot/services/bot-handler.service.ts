@@ -20,6 +20,7 @@ export class BotHandlerService extends ActivityHandler {
   private async newUser(context: TurnContext, next) {
     const membersAdded = context.activity.membersAdded;
     for (const member of membersAdded) {
+      // Send the message to the new member, excluding the bot!
       if (member.id !== context.activity.recipient.id) {
         await context.sendActivity('Bievenido!');
       }
