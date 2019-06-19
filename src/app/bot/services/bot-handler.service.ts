@@ -11,9 +11,20 @@ export class BotHandlerService extends ActivityHandler {
     super();
 
     this.onMessage(this.messageReceived.bind(this));
+    this.onMembersAdded(this.newUser.bind(this));
 
     this.logger.debug('Say "quit" to end.');
     this.consoleAdapter.listen((context: TurnContext) => this.run(context));
+  }
+
+  private async newUser(context: TurnContext, next) {
+    const membersAdded = context.activity.membersAdded;
+    for (const member of membersAdded) {
+      if (member.id !== context.activity.recipient.id) {
+        await context.sendActivity('Bievenido!');
+      }
+    }
+    await next();
   }
 
   private async messageReceived(context: TurnContext, next: () => Promise<void>) {
