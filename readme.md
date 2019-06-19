@@ -5,5 +5,6 @@ How to play:
 3. Go to `http://localhost:3000/`
 
 Remarks:
-.editorconfig
-.gitignore
+Adapters: console.adapter
+Bot Brain: bot-handler.service
+
