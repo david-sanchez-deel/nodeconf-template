@@ -7,8 +7,12 @@ How to play:
 Url for bot emulator: http://localhost:3000/api/v1/bot/messages/bot-framework
 
 Remarks:
-DialogFlow functionallity
-entity.interface
-dialogflow.recognizer
-bot-handler:recognizeMessage()
-bot-handler:messageReceived()
+bot.service 31-32
+bot.service::configureDialogs()
+dialog-id.enum
+step-context.interface
+default.dialog
+base.dialog
+bot.module
+decorators
+bot-handler.service
