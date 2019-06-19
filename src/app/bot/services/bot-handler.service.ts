@@ -1,17 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ActivityHandler, TurnContext } from 'botbuilder';
 import { ConsoleAdapter } from '../adapters';
+import { BotService } from './bot.service';
 
 @Injectable()
 export class BotHandlerService extends ActivityHandler {
 
   private logger = new Logger(BotHandlerService.name);
 
-  constructor(private consoleAdapter: ConsoleAdapter) {
+  constructor(private consoleAdapter: ConsoleAdapter, private botService: BotService) {
     super();
 
     this.onMessage(this.messageReceived.bind(this));
     this.onMembersAdded(this.newUser.bind(this));
+    this.onDialog(this.dialogFinalyzed.bind(this));
 
     this.logger.debug('Say "quit" to end.');
     this.consoleAdapter.listen((context: TurnContext) => this.run(context));
@@ -34,9 +36,17 @@ export class BotHandlerService extends ActivityHandler {
       context.sendActivity(`Bye!`);
       process.exit();
     } else {
+      const userProfile = await this.botService.userProfile.get(context, { times: 0 });
+      userProfile.times += 1;
       // Echo the message text back to the user.
-      return context.sendActivity(`I heard you say "${context.activity.text}"`);
+      await context.sendActivity(`I heard you say "${context.activity.text}", this is your message ${userProfile.times}`);
     }
+    await next();
+  }
+
+  private async dialogFinalyzed(turnContext, next) {
+    await this.botService.conversationState.saveChanges(turnContext, false);
+    await this.botService.userState.saveChanges(turnContext, false);
     await next();
   }
 }

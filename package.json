@@ -16,6 +16,7 @@
     "dev:check": "npm run tslint && npm run tsc"
   },
   "dependencies": {
+    "@kevit/botbuilder-storage-mongo-v4": "^1.0.1",
     "@nestjs/common": "^6.3.1",
     "@nestjs/core": "^6.3.1",
     "@nestjs/platform-fastify": "^6.3.1",
