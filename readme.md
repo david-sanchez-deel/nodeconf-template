@@ -7,9 +7,9 @@ How to play:
 Url for bot emulator: http://localhost:3000/api/v1/bot/messages/bot-framework
 
 Remarks:
-bot-handler.service::new adapter --> Change your username in 27th line
-Test with: 
-Send message to X: "dile a x: this is my message"
-Who is available? "dile a todos: quienes estan disponibles"
+i18n.ts
+prepare interfaces: step-context, turn-context
+Change the library to us: bot.module.ts
+Apply translation: balance.dialog
 
 

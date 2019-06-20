@@ -1,3 +1,4 @@
+import { dictionary } from '@app/i18n';
 import { Dialog, Step } from '../decorators';
 import { DialogId, Intent } from '../enums';
 import { IStepContext } from '../interfaces';
@@ -11,8 +12,8 @@ export class BalanceDialog extends BaseDialog {
   }
 
   @Step(1)
-  public async start(context: IStepContext) {
-    await context.context.sendActivity('Tu saldo es 3000 COP');
-    await context.endDialog();
+  public async start(stepContext: IStepContext) {
+    await stepContext.context.sendActivity(await stepContext.context.translate(dictionary.civica.balance));
+    await stepContext.endDialog();
   }
 }
