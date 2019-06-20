@@ -2,16 +2,19 @@ import { constants } from '@app/constants';
 import { environment } from '@app/environment';
 import { MongoStorage } from '@kevit/botbuilder-storage-mongo-v4';
 import { Injectable, Logger } from '@nestjs/common';
-import { ConversationState, MemoryStorage, StatePropertyAccessor, UserState } from 'botbuilder';
-import { DialogSet } from 'botbuilder-dialogs';
+import { ConversationState, MemoryStorage, StatePropertyAccessor, TurnContext, UserState } from 'botbuilder';
+import { ChoicePrompt, DialogSet } from 'botbuilder-dialogs';
+import { DialogId } from '../enums';
+import { IProfile } from '../interfaces';
 
 @Injectable()
 export class BotService {
   public conversationState: ConversationState;
   public userState: UserState;
-  public userProfile: StatePropertyAccessor;
+  public userProfile: StatePropertyAccessor<IProfile>;
   public dialogSet: DialogSet;
   public intentMap: { [intentName: string]: string } = {};
+
   private storage: MongoStorage;
   private userProfileProperty = 'userProfile';
   private logger = new Logger(BotService.name);
@@ -41,5 +44,12 @@ export class BotService {
       this.logger.log(`Dialog registered {${dialog.dialogId}}`);
       this.dialogSet.add(constants.app.get(dialog.constructor));
     }
+
+    // Add default prompts
+    this.dialogSet.add(new ChoicePrompt(DialogId.choicePrompt));
+  }
+
+  public getProfile(context: TurnContext) {
+    return this.userProfile.get(context, { language: 'es' });
   }
 }

@@ -7,7 +7,7 @@ How to play:
 Url for bot emulator: http://localhost:3000/api/v1/bot/messages/bot-framework
 
 Remarks:
-intent.enum
-dialog-id
-balance.dialog
-bot-handler.service --> Status of an operation
+Add dialogId and intent
+profile.interface
+bot.service::getProfile() and add prompt dialog
+change-language.dialog
