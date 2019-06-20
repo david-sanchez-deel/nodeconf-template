@@ -1,7 +1,8 @@
+import { environment } from '@app/environment';
 import { Injectable, Logger } from '@nestjs/common';
 import { ActivityHandler, TurnContext } from 'botbuilder';
 import { DialogContext, DialogTurnStatus } from 'botbuilder-dialogs';
-import { ConsoleAdapter } from '../adapters';
+import UniversalConnectorClient from 'universal-connector-client';
 import { DialogId } from '../enums';
 import { DialogFlowRecognizer } from '../recognizers';
 import { BotService } from './bot.service';
@@ -11,7 +12,9 @@ export class BotHandlerService extends ActivityHandler {
 
   private logger = new Logger(BotHandlerService.name);
 
-  constructor(private consoleAdapter: ConsoleAdapter, private botService: BotService, private dialogFlowRecognizer: DialogFlowRecognizer) {
+  constructor(
+    private universalClientAdapter: UniversalConnectorClient.UniversalClientAdapter,
+    private botService: BotService, private dialogFlowRecognizer: DialogFlowRecognizer) {
     super();
 
     this.onMessage(this.messageReceived.bind(this));
@@ -19,7 +22,10 @@ export class BotHandlerService extends ActivityHandler {
     this.onDialog(this.dialogFinalyzed.bind(this));
 
     this.logger.debug('Say "quit" to end.');
-    this.consoleAdapter.listen((context: TurnContext) => this.run(context));
+    this.universalClientAdapter.listen((context: TurnContext) => this.run(context));
+    this.universalClientAdapter.register(
+      'user',
+      environment.port, (turnContext: TurnContext) => this.run(turnContext)).then(() => this.logger.debug('Connected to master'));
   }
 
   private async newUser(context: TurnContext, next) {
