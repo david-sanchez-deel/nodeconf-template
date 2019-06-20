@@ -7,12 +7,7 @@ How to play:
 Url for bot emulator: http://localhost:3000/api/v1/bot/messages/bot-framework
 
 Remarks:
-bot.service 31-32
-bot.service::configureDialogs()
-dialog-id.enum
-step-context.interface
-default.dialog
-base.dialog
-bot.module
-decorators
-bot-handler.service
+intent.enum
+dialog-id
+balance.dialog
+bot-handler.service --> Status of an operation

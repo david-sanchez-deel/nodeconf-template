@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ActivityHandler, TurnContext } from 'botbuilder';
-import { DialogContext } from 'botbuilder-dialogs';
+import { DialogContext, DialogTurnStatus } from 'botbuilder-dialogs';
 import { ConsoleAdapter } from '../adapters';
 import { DialogId } from '../enums';
 import { DialogFlowRecognizer } from '../recognizers';
@@ -36,7 +36,10 @@ export class BotHandlerService extends ActivityHandler {
     const dialogContext = await this.botService.dialogSet.createContext(context);
     const results = await dialogContext.continueDialog();
     this.logger.debug(`Dialog continued with status ${results.status}`);
-    await this.recognizeMessage(context, dialogContext);
+    if (results.status === DialogTurnStatus.empty) {
+      await this.recognizeMessage(context, dialogContext);
+    }
+    await next();
   }
 
   private async recognizeMessage(context: TurnContext, dialogContext: DialogContext) {

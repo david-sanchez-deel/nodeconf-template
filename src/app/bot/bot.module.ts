@@ -1,7 +1,7 @@
 import { Module, NestModule } from '@nestjs/common';
 import { ConsoleAdapter } from './adapters';
 import { BotController } from './controllers';
-import { DefaultDialog } from './dialogs';
+import { BalanceDialog, DefaultDialog } from './dialogs';
 import { DialogFlowRecognizer } from './recognizers';
 import { BotHandlerService, BotService } from './services';
 
@@ -15,6 +15,7 @@ import { BotHandlerService, BotService } from './services';
     BotService,
     DialogFlowRecognizer,
     DefaultDialog,
+    BalanceDialog,
   ],
 })
 export class BotModule  implements NestModule {
